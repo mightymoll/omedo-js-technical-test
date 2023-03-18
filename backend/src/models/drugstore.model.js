@@ -8,6 +8,7 @@ class DrugstoreModel {
     point,
     number_of_employees,
     candidate = undefined,
+    distance = function () { calculateDistance(otherPoint); },
   }) {
     this.id = id;
     this.name = name;
@@ -15,6 +16,7 @@ class DrugstoreModel {
     this.point = point;
     this.number_of_employees = number_of_employees;
     this.candidate_id = candidate;
+    this.distance = distance;
   }
 
   calculateDistance(otherPoint) {

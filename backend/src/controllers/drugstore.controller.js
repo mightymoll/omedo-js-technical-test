@@ -1,7 +1,8 @@
 const service = require("../services/drugstore.service");
 
 const listDrugstore = (req, res) => {
-  res.send(service.listDrugstores());
+  const { otherPoint } = req.query;
+  res.send(service.listDrugstores(otherPoint));
 };
 
 const deleteDrugstore = (req, res) => {

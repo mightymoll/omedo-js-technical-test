@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node main.js",
+    "dev": "nodemon main.js",
     "format": "prettier --write \"src/**/*.js\""
   },
   "author": "",
@@ -16,6 +17,7 @@
     "prettier": "^2.8.4"
   },
   "devDependencies": {
-    "eslint": "^8.36.0"
+    "eslint": "^8.36.0",
+    "nodemon": "^2.0.21"
   }
 }
