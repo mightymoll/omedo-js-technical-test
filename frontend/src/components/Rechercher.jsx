@@ -1,26 +1,26 @@
 import { useState } from 'react';
-import { Box, IconButton, InputLabel, FormControl, OutlinedInput, InputAdornment } from '@mui/material';
+import { Box, IconButton, TextField } from '@mui/material';
 import SearchIcon from "@mui/icons-material/Search";
 import axios from 'axios';
-
 
 export default function Rechercher() {
   const [query, setQuery] = useState("");
 
-  const handleSubmit = async (event) => {
-    setQuery(event.target.value);
+  const handleSubmit = async () => {
+    console.log(query)
+    const ville = query.toString().toLowerCase();
+    const url = "http://localhost:3310/";
 
+    console.log(ville)
+
+    const villeCoordonnees = (ville === 'paris' ? [48.870182, 2.356464] : [0, 0]);
+    console.log(villeCoordonnees)
     try {
-      const coordinates = await axios.get(`http://api.positionstack.com/v1/forward?access_key=e9c9c032ec1cbcd5eb32d1e6a1e53633&query=${query}`)
-        .then(response => {
-          console.log(response.data)
-          return [response.data.longitude, response.data.latitude]
-        })
-      const otherPoint = coordinates
-      axios.put("http://localhost:3310/drugstore", otherPoint)
+      await axios.post(url, { coordonnees: villeCoordonnees },)
+        .then(response => console.log(response.status))
     }
     catch (error) {
-      console.log(error)
+      console.warn(error)
     }
   }
 
@@ -34,24 +34,21 @@ export default function Rechercher() {
         noValidate
         autoComplete="off"
       >
-        <FormControl>
-          <InputLabel htmlFor="component-outlined">Rechercher</InputLabel>
-          <OutlinedInput
-            id="component-outlined"
-            defaultValue="Paris"
-            label="Name"
-            value={query}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment>
-                  <IconButton color="primary" aria-label="search" onClick={handleSubmit}>
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>)
-            }}
-          />
-        </FormControl>
+        <TextField
+          id="search"
+          type="text"
+          variant="outlined"
+          label="Rechercher"
+          onChange={(e) => setQuery(e.current.value)}
+          InputProps={{
+            position: 'end',
+            endAdornment: (
+              <IconButton color="primary" aria-label="search" onClick={handleSubmit}>
+                <SearchIcon />
+              </IconButton>)
+          }}
+        />
       </Box>
-    </div>
+    </div >
   );
 }
